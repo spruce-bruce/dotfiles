@@ -6,7 +6,7 @@ set softtabstop=4                  " number of spaces in tab when editing
 set expandtab                      " tabs are spaces
 set autoindent
 set smartindent
-set diffopt+=vertical
+set diffopt=vertical
 set ic                             " case insensitive search by defaul
 set incsearch                      " search as you type
 set cursorline                     " highlight current line
