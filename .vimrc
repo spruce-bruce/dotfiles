@@ -1,4 +1,4 @@
-let mapleader = "\<space>"
+let mapleader="\<space>"
 filetype plugin indent on
 set tabstop=4                      " number of visual spaces per TAB
 set shiftwidth=4
@@ -38,8 +38,10 @@ let g:prettier#config#bracket_spacing = 'true'
 
 " Color and Style
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-monokai
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 
 syntax on
 set number
