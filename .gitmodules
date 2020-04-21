@@ -58,3 +58,12 @@
 [submodule ".vim/pack/aaron/start/vim-yaml"]
 	path = .vim/pack/aaron/start/vim-yaml
 	url = git@github.com:stephpy/vim-yaml.git
+[submodule ".vim/pack/aaron/start/far.vim"]
+	path = .vim/pack/aaron/start/far.vim
+	url = git@github.com:brooth/far.vim.git
+[submodule ".vim/pack/aaron/start/nginx.vim"]
+	path = .vim/pack/aaron/start/nginx.vim
+	url = git@github.com:chr4/nginx.vim.git
+[submodule ".vim/pack/aaron/start/vim-dispatch"]
+	path = .vim/pack/aaron/start/vim-dispatch
+	url = git@github.com:tpope/vim-dispatch.git

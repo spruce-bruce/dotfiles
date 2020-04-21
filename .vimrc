@@ -18,23 +18,11 @@ set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 set backspace=indent,eol,start     " required to make backspace behave as expected
 
-" update file in buffer once after 4 seconds in normal mode :(
-" set autoread
-" au CursorHold * checktime
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 " DOPE ASS VIMRC
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Prettier
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:prettier#autoformat = 0
-" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql Prettier
-let g:prettier#config#print_width=120
-let g:prettier#config#trailing_comma='es5'
-let g:prettier#config#bracket_spacing = 'true'
 
 " Color and Style
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -54,16 +42,23 @@ set guifont=Monaco:h12
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_javascript_eslint_executable = 'eslint'
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 2
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_javascript_eslint_exec = 'eslint_d'
-" let g:syntastic_javascript_eslint_args = '--parser=babel-eslint'
-" let g:syntastic_javascript_eslint_args = "--cache"
 let g:jsx_ext_required = 0
+
+
+" FUGITIVE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <Leader>g :Git<space>
+map <Leader>gg :Git<CR>
+map <Leader>gs :Gstatus<CR>
+map <Leader>gp :Git push<CR>
+map <Leader>gca :Git commit -a<CR>
+map <Leader>gcc :Git commit<CR>
+
+" DISPATCH.VIM
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <Leader>d :Dispatch<space>
+map <Leader>t :Dispatch yarn workspace api test:lab<CR>
+map <Leader>dt :Dispatch docker-compose exec api npm run test:lab
 
 " AIRLINE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -135,19 +130,19 @@ nnoremap \ :Rg<SPACE>
 
 " NERDCOMMENTER
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
-
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
 
-
-
-
+" VIM-LSP
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:lsp_diagnostics_enabled = 0
+" set foldmethod=expr
+"   \ foldexpr=lsp#ui#vim#folding#foldexpr()
+"   \ foldtext=lsp#ui#vim#folding#foldtext()
 
 " Function to Watch for changes if buffer changed on disk
 function! WatchForChanges(bufname, ...)
