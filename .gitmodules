@@ -67,3 +67,6 @@
 [submodule ".vim/pack/aaron/start/vim-dispatch"]
 	path = .vim/pack/aaron/start/vim-dispatch
 	url = git@github.com:tpope/vim-dispatch.git
+[submodule ".vim/pack/aaron/start/vim-node"]
+	path = .vim/pack/aaron/start/vim-node
+	url = git@github.com:moll/vim-node.git
