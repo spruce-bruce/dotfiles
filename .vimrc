@@ -17,12 +17,98 @@ set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 set backspace=indent,eol,start     " required to make backspace behave as expected
+set hidden                         " It hides buffers instead of closing them. This means that you can have unwritten
+                                   " changes to a file and open a new file without being forced to write or undo your changes first.
 
+
+
+
+" Fix highlighting for spell checks in terminal
+function! s:base16_customize() abort
+  " Colors: https://github.com/chriskempson/base16/blob/master/styling.md
+  " Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
+  call Base16hi("SpellBad",   "", "", g:base16_cterm01, g:base16_cterm09, "", "")
+  call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm01, "", "")
+  call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm01, "", "")
+  call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm01, "", "")
+endfunction
+
+augroup on_change_colorschema
+  autocmd!
+  autocmd ColorScheme * call s:base16_customize()
+augroup END
+
+colorscheme base16-monokai
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 " DOPE ASS VIMRC
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+" COC
+"
+" The COC repo recommends a lot of these settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Some language servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+" if has("patch-8.1.1564")
+"   set signcolumn=number
+" else
+"   set signcolumn=yes
+" endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 
 " Color and Style
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -39,9 +125,14 @@ set guifont=Monaco:h12
 " LINTING
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_javascript_eslint_executable = 'eslint'
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+
+let g:ale_statusline_format = ['✘ %d', '⚠ %d', '⬥ ok']
+" let g:ale_javascript_eslint_use_global = 1
+" let g:ale_javascript_eslint_executable = 'eslint'
 let g:jsx_ext_required = 0
 
 
@@ -136,13 +227,6 @@ let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
-
-" VIM-LSP
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:lsp_diagnostics_enabled = 0
-" set foldmethod=expr
-"   \ foldexpr=lsp#ui#vim#folding#foldexpr()
-"   \ foldtext=lsp#ui#vim#folding#foldtext()
 
 " Function to Watch for changes if buffer changed on disk
 function! WatchForChanges(bufname, ...)
